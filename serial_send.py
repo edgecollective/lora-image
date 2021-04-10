@@ -3,10 +3,11 @@ import serial
 CHUNK_SIZE = 50
 
 ser=serial.Serial('/dev/ttyACM1')
+ser.reset_output_buffer()
 
 image_file = 'flower.png'
 
-chunk_file=open('chunkfile_test.txt','wb+')
+chunk_file=open('chunkfile_test.png','wb+')
 
 index = 0 
 with open(image_file, 'rb') as infile:
@@ -22,15 +23,19 @@ with open(image_file, 'rb') as infile:
         
         #time.sleep(.4)
 
-        sercom = "SEND " + chunk + " 1 10\n"
+        sercom = "TRANSMIT\n"
 
+        if(index>-1):
+            ser.write(sercom.encode())
+            ser.flush()
+            ser.write(chunk)
+            ser.flush()
+            print(repr(chunk))
+            print("\n")
 
-        if(index==5):
-            ser.write(sercom)
-            print(repr(sercom))
+        #chunk_file.write(chunk)
 
-        chunk_file.write(chunk)
-        time.sleep(.5)
+        #time.sleep(.1)
 
         index=index+1
 
@@ -38,7 +43,7 @@ chunk_file.close()
 
 # STITCH IMAGE BACK TOGETHER
 # Normally this will be in another location to stitch it back together
-read_file = open('chunkfile_test.txt', 'rb')
+read_file = open('chunkfile_test.png', 'rb')
 
 # Create the png file
 with open('stitched_together.png', 'wb') as image:
