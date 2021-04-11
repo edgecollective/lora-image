@@ -290,7 +290,7 @@ for (int i = 0; i < BMP::headerSize; i++) {
   Serial.println("Waiting for packet to complete..."); 
   delay(10);
   rf95.waitPacketSent();
-
+  delay(100);
   /*
     for (int k=0; k< numBytes; k++) {
       Serial.write(chunk[k]);
@@ -342,10 +342,10 @@ void transmit(SerialCommand this_sCmd) {
   rf95.send((uint8_t *)&theData, sizeof(theData));
 
   Serial.println("Waiting for packet to complete..."); 
-  //delay(10);
+  delay(10);
   rf95.waitPacketSent();
 
-  delay(10);
+  //delay(10);
     
 }
 
