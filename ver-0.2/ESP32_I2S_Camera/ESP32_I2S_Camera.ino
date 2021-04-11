@@ -23,7 +23,11 @@ const int XCLK = 32; //
 
 const int D7 = 4; //
 const int D6 = 26; //
-const int D5 = 21;
+
+//const int D5 = 21;
+const int D5 = 36;
+
+
 const int D4 = 14; //
 const int D3 = 15; //
 const int D2 = 16; //
