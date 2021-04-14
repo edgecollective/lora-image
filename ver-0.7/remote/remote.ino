@@ -216,7 +216,7 @@ void setup()
   int numChunks = totalBytes/numBytes;
 
   myMeta.chunks_total = numChunks;
-  memcpy(myMeta.header,bmpHeader,sizeof(myMeta.header));
+  memcpy(myMeta.header,bmpHeader,sizeof(bmpHeader));
   
   Serial.write((uint8_t *) myMeta.header,sizeof(myMeta.header));
   
