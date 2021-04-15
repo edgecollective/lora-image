@@ -100,10 +100,7 @@ char matrix[48][numBytes];
 void loop()
 {
 
- int num_bytes = sCmd.readSerial();      // fill the buffer
-    if (num_bytes > 0){
-      sCmd.processCommand();  // process the command
-    }
+ 
 
   
   if (sending==0) {
@@ -112,6 +109,10 @@ void loop()
     
     //if (rf95.available())
 
+    int num_bytes = sCmd.readSerial();      // fill the buffer
+    if (num_bytes > 0){
+      sCmd.processCommand();  // process the command
+    }
     
     if (rf95.waitAvailableTimeout(1000))
     {
@@ -201,10 +202,13 @@ void getLatestImage(SerialCommand this_sCmd) {
   //this_sCmd.println("LED on");
   
   if(sending==0) {
+    
     Serial.write((uint8_t *)myMeta.header,sizeof(myMeta.header));
+    delay(500);
+    
         for (int j=0;j<48;j++) {
           Serial.write((uint8_t *) matrix[j],sizeof(matrix[j]));
-          delay(300);
+          delay(500);
     }
   }
 }
