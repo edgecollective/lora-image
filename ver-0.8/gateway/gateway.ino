@@ -47,6 +47,9 @@ void setup()
 
   Serial.begin(9600);
 
+  sCmd.addCommand("LATEST",    getLatestImage);          // Turns LED on
+  sCmd.setDefaultHandler(unrecognized);      // Handler for command that isn't matched  (says "What?")
+
   /*
   while (!Serial) {
     delay(1);
@@ -97,11 +100,19 @@ char matrix[48][numBytes];
 void loop()
 {
 
+ int num_bytes = sCmd.readSerial();      // fill the buffer
+    if (num_bytes > 0){
+      sCmd.processCommand();  // process the command
+    }
+
+  
   if (sending==0) {
 
     //Serial.println("listening ...");
     
     //if (rf95.available())
+
+    
     if (rf95.waitAvailableTimeout(1000))
     {
 
@@ -171,14 +182,39 @@ void loop()
     }
     else{ // we're done sending
       sending=0;
-      
+
+      /*
       Serial.write((uint8_t *)myMeta.header,sizeof(myMeta.header));
       for (int j=0;j<48;j++) {
         Serial.write((uint8_t *) matrix[j],sizeof(matrix[j]));
         delay(300);
       }
+      */
     }
   
   }
   
+}
+
+void getLatestImage(SerialCommand this_sCmd) {
+  
+  //this_sCmd.println("LED on");
+  
+  if(sending==0) {
+    Serial.write((uint8_t *)myMeta.header,sizeof(myMeta.header));
+        for (int j=0;j<48;j++) {
+          Serial.write((uint8_t *) matrix[j],sizeof(matrix[j]));
+          delay(300);
+    }
+  }
+}
+
+
+
+// This gets set as the default handler, and gets called when no other command matches.
+void unrecognized(SerialCommand this_sCmd) {
+  SerialCommand::CommandInfo command = this_sCmd.getCurrentCommand();
+  this_sCmd.print("Did not recognize \"");
+  this_sCmd.print(command.name);
+  this_sCmd.println("\" as a command.");
 }
