@@ -146,7 +146,7 @@ void loop()
         if(theData.chunk_num==i) {
   
             Serial.write((uint8_t *) theData.chunk,sizeof(theData.chunk));
-          
+            delay(300); // let serial port catch up
           i++;
         }
       }
