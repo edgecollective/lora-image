@@ -18,5 +18,6 @@ with serial.Serial(serialPort, 115200, timeout=1) as ser:
             #print(numBytesRead)
             #print("\n")
             chunk_file.write(inBytes)
+            chunk_file.flush()
             #time.sleep(.1)
             #chunk_file.close()
