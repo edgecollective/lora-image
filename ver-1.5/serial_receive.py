@@ -6,7 +6,7 @@ import subprocess
 #serialPort = '/dev/ttyUSB0'
 serialPort = '/dev/ttyACM0'
 
-filenum = 0
+filenum = 6
 
 #chunk_file=open('image_in.bmp','wb+')
 
