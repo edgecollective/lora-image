@@ -19,7 +19,12 @@ with serial.Serial(serialPort, 115200, timeout=1) as ser:
         ser.write(b"NUM_UNREAD\n")
         time.sleep(2)
         reply=ser.readline().strip()
-        if(int(reply)>0):
+        replyNum=0
+        try:
+            replyNum=int(reply)
+        except Exception:
+            pass
+        if(replyNum==1):
             numBytesRead=0
             filename = str(filenum).zfill(3)+"_image.bmp"
             filenum=filenum+1
@@ -45,8 +50,8 @@ with serial.Serial(serialPort, 115200, timeout=1) as ser:
             directory = "/root/gitwork/bayou/public/images/loracam/"
             subprocess.run(["scp", filename,"root@104.248.50.193:"+directory])
 
-            time.sleep(60) 
+            time.sleep(20) 
         else:
             print("no new images")
-            time.sleep(60)
+            time.sleep(20)
         
